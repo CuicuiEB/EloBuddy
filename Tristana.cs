@@ -26,14 +26,14 @@ namespace Cui_Tristana
             get { return ObjectManager.Player; }
         }
 
-        static void Main(string[] args)
+        static void Main(string[] args) //cargamos todo
         {
             Loading.OnLoadingComplete += Game_OnStart;
             Drawing.OnDraw += Game_OnDraw;
             Game.OnUpdate += Game_OnUpdate;
         }
 
-        private static void Game_OnStart(EventArgs args)
+        private static void Game_OnStart(EventArgs args) // Cuando el juego empiece :v
         {
             Chat.Print("Im new in this - Cuicui");
 
@@ -42,7 +42,17 @@ namespace Cui_Tristana
             E = new Spell.Targeted(SpellSlot.E, 575);
             R = new Spell.Targeted(SpellSlot.R, 575);
 
-            Menu = MainMenu.AddMenu("CUI Tristana", "cuiTristana");
+            Menu = MainMenu.AddMenu("CUI Tristana", "cuiTristana"); 
             Menu.AddSeparator();
             Menu.AddLabel("Creado por Cuicui");
+
+// Agregamos los Drawings
+            DrawMenu = Menu.AddSubMenu("Draw", "CUI Drawings");
+            DrawMenu.Add("drawDisable", new CheckBox("Saca todos los drawings", true));
+            ComboMenu = Menu.AddSubMenu("Combo", "cuiComboTristana");
+            ComboMenu.Add("comboQ", new CheckBox("Usar la Q [en combo]", true));
+            ComboMenu.Add("comboW", new CheckBox("Usar la W [en combo]", true));
+            ComboMenu.Add("comboE", new CheckBox("Usar la E [en combo]", true));
+            ComboMenu.Add("comboR", new CheckBox("Usart la R [en combo]", true));
+
         }
