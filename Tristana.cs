@@ -53,6 +53,48 @@ namespace Cui_Tristana
             ComboMenu.Add("comboQ", new CheckBox("Usar la Q [en combo]", true));
             ComboMenu.Add("comboW", new CheckBox("Usar la W [en combo]", true));
             ComboMenu.Add("comboE", new CheckBox("Usar la E [en combo]", true));
-            ComboMenu.Add("comboR", new CheckBox("Usart la R [en combo]", true));
+            ComboMenu.Add("comboR", new CheckBox("Usar la R [en combo]", true));
 
         }
+
+        public static void Game_OnDraw(EventArgs args)
+        {
+            if (!DrawMenu["drawDisable"].Cast<CheckBox>().CurrentValue)
+            {
+                new Circle() { Color = Color.White, Radius = ObjectManager.Player.GetAutoAttackRange(), BorderWidth = 2f }.Draw(ObjectManager.Player.Position);
+            }
+        }
+
+        public static void Game_OnUpdate(EventArgs args)
+        {
+
+            var fichado = TargetSelector.GetTarget(1000, DamageType.Physical);
+
+            if (!fichado.IsValid()) return;
+
+            if (Orbwalker.ActiveModesFlags == Orbwalker.ActiveModes.Combo)
+            {
+                if (Q.IsReady() && ComboMenu["comboQ"].Cast<CheckBox>().CurrentValue)
+                {
+                    Q.Cast();
+                }
+
+                if (W.IsReady() && _Player.Distance(fichado) <= W.Range + _Player.GetAutoAttackRange() && ComboMenu["comboW"].Cast<CheckBox>().CurrentValue)
+                {
+                    W.Cast(fichadO);
+                }
+
+                if (E.IsReady() && E.IsInRange(fichado) && ComboMenu["comboE"].Cast<CheckBox>().CurrentValue)
+                {
+                    E.Cast(fichado);
+                }
+
+                if (R.IsReady() && R.IsInRange(fichado) && ComboMenu["comboR"].Cast<CheckBox>().CurrentValue)
+                {
+                    R.Cast(fichado);
+                }
+            }
+
+        }
+    }
+}
